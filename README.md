@@ -6,6 +6,9 @@ A Python interface that can run Delphiscript scripts in [Altium Designer](https:
 
 New features can be requested in the [Github Issues](https://github.com/krakdustten/PyAltiumRun/issues).
 
+## update 
+fix bug log_str
+
 ## Installation requirements
 
 Altium designer must be installed before running this library.
