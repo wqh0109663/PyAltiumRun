@@ -1,7 +1,7 @@
 import sys
 from time import sleep
 from typing import List, Optional, Dict, Any
-from PyAltiumRun.helpers import AltiumHelper
+from PyAltiumRunTop.helpers import AltiumHelper
 import os
 import subprocess
 
