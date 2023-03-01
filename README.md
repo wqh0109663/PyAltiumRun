@@ -2,7 +2,7 @@ PyAltiumRun
 
 [![PyPI version](https://badgen.net/pypi/v/PyAltiumRun)](https://pypi.org/project/PyAltiumRun/)  [![PyPI version](https://badgen.net/pypi/license/PyAltiumRun)](https://github.com/krakdustten/PyAltiumRun/blob/master/LICENSE) [![PyPI version](https://badgen.net/pypi/python/PyAltiumRun)](https://pypi.org/project/PyAltiumRun/)
 
-A Python interface that can run Delphiscript scripts in [Altium Designer](https://www.altium.com/).
+A Python interface that can run Delphiscript  in [Altium Designer](https://www.altium.com/).
 
 New features can be requested in the [Github Issues](https://github.com/krakdustten/PyAltiumRun/issues).
 
