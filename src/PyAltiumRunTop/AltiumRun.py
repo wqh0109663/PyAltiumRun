@@ -163,6 +163,7 @@ class AltiumRun:
         :param function_name: The name of the function to run in the Altium script as string.
         :param args: The arguments given to the Altium script function.
         """
+        self._generate_script_from_base("updateSitNum0302.pas", {})
         self.add_script(self._project_path + "/updateSitNum0302.pas")
         self.set_function_name(function_name)
         self.set_function_parameters(*args)
