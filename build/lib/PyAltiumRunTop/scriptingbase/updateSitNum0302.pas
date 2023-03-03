@@ -22,6 +22,8 @@ Var
   I: Integer;
   G: Integer;
   Splitted: TStringList;
+  NameList : TStringList;
+
 Begin
   // Check if schematic server exists or not.
   If SchServer = Nil Then Exit;
@@ -30,7 +32,13 @@ Begin
   CurrentSch := SchServer.GetCurrentSchDocument;
   If CurrentSch = Nil Then Exit;
   ObjectList := TStringList.Create;
-
+ NameList := TStringList.Create;
+ NameList.Add('componentCoding');
+ NameList.Add('componentDesc');
+ NameList.Add('manufacturerCode');
+ NameList.Add('manufacturerName');
+ NameList.Add('materialGroupDesc');
+ NameList.Add('materialInTheClassDesc');
   // FileName := ;
   //fileName
   AssignFile(RptFile, 'D:\adTemp\' + fileName);
@@ -47,6 +55,9 @@ Begin
   // Look for components only
   Iterator := CurrentSch.SchIterator_Create;
   Iterator.AddFilter_ObjectSet(MkSet(eSchComponent));
+
+
+
 
 //  ReportList := TStringList.Create;
   Try
@@ -70,6 +81,33 @@ Begin
         AComponent := Iterator.NextSchObject;
         Continue;
       end;
+
+
+      Try
+          PIterator := AComponent.SchIterator_Create;
+          PIterator.AddFilter_ObjectSet(MkSet(eParameter));
+
+          Parameter := PIterator.FirstSchObject;
+
+          While Parameter <> Nil Do
+          Begin
+             // ShowMessage(Parameter.Name);
+             if NameList.IndexOf(Parameter.Name) >= 0 then
+                begin
+                  AComponent.RemoveSchObject(Parameter);
+                end;
+
+//             ReportList.Add('  Parameter.Text: ' + Parameter.Text  );
+//             ReportList.Add('  Parameter.Name: ' + Parameter.Name  );
+//             ReportList.Add('  Name: ' + Parameter.Name + ' Designator: ' + Parameter.Designator );
+//             ReportList.Add( ' Orientation: ' +  OrientationToStr(Parameter.Designator));
+           Parameter := PIterator.NextSchObject;
+         End;
+       Finally
+           AComponent.SchIterator_Destroy(PIterator);
+       End;
+
+
 
       Splitted := TStringList.Create;
       Splitted.LineBreak := '!!!!!';
@@ -123,25 +161,7 @@ Begin
       // Model.AddSchObject(Parameter);
 
 
-      // Try
-      //    PIterator := AComponent.SchIterator_Create;
-      //    PIterator.AddFilter_ObjectSet(MkSet(eParameter));
 
-      //    Parameter := PIterator.FirstSchObject;
-
-      //  SchServer.RobotManager.SendMessage(Parameter.I_ObjectAddress, c_BroadCast, SCHM_BeginModify, c_NoEventData);
-      //    While Parameter <> Nil Do
-      //    Begin
-
-      //ReportList.Add('  Parameter.Text: ' + Parameter.Text  );
-      // ReportList.Add('  Parameter.Name: ' + Parameter.Name  );
-      // ReportList.Add('  Name: ' + Parameter.Name + ' Designator: ' + Parameter.Designator );
-      // ReportList.Add( ' Orientation: ' +  OrientationToStr(Parameter.Designator));
-      //     Parameter := PIterator.NextSchObject;
-      //   End;
-      // Finally
-      //     AComponent.SchIterator_Destroy(PIterator);
-      // End;
 
 //      ReportList.Add('');
       AComponent := Iterator.NextSchObject;
