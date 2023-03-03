@@ -79,7 +79,7 @@ Begin
       begin
        // ShowMessage(G);
         Parameter := SchServer.SchObjectFactory(eParameter, eCreate_Default);
-        Parameter.IsHidden := False;
+        Parameter.IsHidden := True;
         if G = 1 Then
         begin
           Parameter.Name := 'componentCoding';

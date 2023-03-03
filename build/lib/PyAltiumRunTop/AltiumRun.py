@@ -163,10 +163,53 @@ class AltiumRun:
         :param function_name: The name of the function to run in the Altium script as string.
         :param args: The arguments given to the Altium script function.
         """
-        self._generate_script_from_base("updateSitNum0302.pas", {})
+        self._generate_script_from_base_top("updateSitNum0302.pas")
         self.add_script(self._project_path + "/updateSitNum0302.pas")
         self.set_function_name(function_name)
         self.set_function_parameters(*args)
+    def runTop(self, wait_until_finished: bool = True, timeout: float = 10) -> bool:
+        r"""Runs the script based on the settings defined.
+
+        If Altium Designer is running it will run the script in that instance and leave it open.
+        If Altium Desinger is not running it will start a new instance and close it when finished.
+
+        This functions waits until the script is finished when the :param:`wait_until_finished` parameter is True.
+        A timeout can be set for this waiting on finish.
+
+        :param wait_until_finished: If the function should wait for the script to finish.
+        :param timeout: The timeout when waiting for the script to finish.
+        :return: True, if the script is finished.
+        """
+        # Generate the path for the scripting project
+        if not os.path.exists(self._project_path):
+            os.makedirs(self._project_path)
+        if not os.path.exists(self._project_path + "/data"):
+            os.makedirs(self._project_path + "/data")
+
+        self._internal_scripts_path.clear()
+        if self._use_internal_logger:
+            self._generate_logger_script()
+        self._generate_main_script()
+        self._internal_scripts_path.append(self._project_path + "/updateSitNum0302.pas")
+        self._generate_script_from_base_top("updateSitNum0302.pas")
+
+        self._generate_scripting_project()
+        self.get_log_file_path()
+
+
+
+        project = (self._project_path + "/script_project.PrjScr").replace("/", "\\")
+        script = "main.pas>SCRIPTING_SYSTEM_MAIN"
+        command = f"\"{self._altium_path}\" -RScriptingSystem:RunScript(ProjectName=\"{project}\"|ProcName=\"{script}\")"
+
+        f_running = open(self._project_path + "/data/running", 'w')
+        f_running.write("")
+        f_running.close()
+
+        self._process = subprocess.Popen(command)
+        if wait_until_finished:
+            return self.wait_until_finished(timeout)
+        return self.wait_until_finished(0.1)
 
     def run(self, wait_until_finished: bool = True, timeout: float = 10) -> bool:
         r"""Runs the script based on the settings defined.
@@ -192,6 +235,8 @@ class AltiumRun:
             self._generate_logger_script()
         self._generate_main_script()
         self._generate_scripting_project()
+
+
 
         project = (self._project_path + "/script_project.PrjScr").replace("/", "\\")
         script = "main.pas>SCRIPTING_SYSTEM_MAIN"
@@ -284,6 +329,21 @@ class AltiumRun:
         origin = os.path.dirname(os.path.abspath(__file__)) + '\\scriptingbase\\' + name
         destination = self._project_path + '/' + name
         self._generate_script_from_source(origin, destination, variables)
+
+
+    def _generate_script_from_base_top(self, name: str) -> None:
+        origin = os.path.dirname(os.path.abspath(__file__)) + '\\scriptingbase\\' + name
+        destination = self._project_path + '/' + name
+        self._generate_script_from_source_top(origin, destination)
+    def _generate_script_from_source_top(self, origin: str, destination: str) -> None:
+        f_or = open(origin, 'r')
+        f_de = open(destination, 'w')
+        line = f_or.readline()
+        while line:
+            f_de.write(line)
+            line = f_or.readline()
+        f_or.close()
+        f_de.close()
 
     def _generate_script_from_source(self, origin: str, destination: str, variables: Dict[str, Any] = {}) -> None:
         f_or = open(origin, 'r')
