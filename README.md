@@ -1,6 +1,6 @@
 PyAltiumRun
 
-[![PyPI version](https://badgen.net/pypi/v/PyAltiumRun)](https://pypi.org/project/PyAltiumRun/)  [![PyPI version](https://badgen.net/pypi/license/PyAltiumRun)](https://github.com/krakdustten/PyAltiumRun/blob/master/LICENSE) [![PyPI version](https://badgen.net/pypi/python/PyAltiumRun)](https://pypi.org/project/PyAltiumRun/)
+[![PyPI version](https://badgen.net/pypi/v/PyAltiumRunTop)](https://pypi.org/project/PyAltiumRunTop/)  [![PyPI version](https://badgen.net/pypi/license/PyAltiumRunTop)](https://github.com/krakdustten/PyAltiumRun/blob/master/LICENSE) [![PyPI version](https://badgen.net/pypi/python/PyAltiumRunTop)](https://pypi.org/project/PyAltiumRunTop/)
 
 A Python interface that can run Delphiscript  in [Altium Designer](https://www.altium.com/).
 
@@ -18,7 +18,7 @@ Altium designer must be installed before running this library.
 ## Quick start
 
 ~~~python
-from PyAltiumRun.AltiumRun import AltiumRun
+from PyAltiumRunTop.AltiumRun import AltiumRun
 
 run = AltiumRun(use_internal_logger=True)                       #Create runner object
 run.clear_log_file()                                            #Clear the logs of the previous run
