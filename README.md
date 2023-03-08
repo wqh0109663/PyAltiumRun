@@ -16,7 +16,9 @@ Add Parameter Pas File
 Altium designer must be installed before running this library.
 
 ## Quick start
-
+```shell script
+pip install PyAltiumRunTop
+```
 ~~~python
 from PyAltiumRunTop.AltiumRun import AltiumRun
 
