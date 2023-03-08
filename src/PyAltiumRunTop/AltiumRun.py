@@ -4,7 +4,7 @@ from typing import List, Optional, Dict, Any
 from PyAltiumRunTop.helpers import AltiumHelper
 import os
 import subprocess
-
+import pathlib
 
 class AltiumRun:
     """An Altium runner object
@@ -16,6 +16,7 @@ class AltiumRun:
         self.set_used_altium_version()
         self._project_path = os.path.dirname(sys.argv[0]) + "/scripting_project"
 
+        pathlib.Path(self._project_path).mkdir(parents=True, exist_ok=True)
         self.external_scripts_path: List[str] = []
         r"""A list of all the paths to the needed scripts."""
 
@@ -326,13 +327,13 @@ class AltiumRun:
         return None
 
     def _generate_script_from_base(self, name: str, variables: Dict[str, Any] = {}) -> None:
-        origin = os.path.dirname(os.path.abspath(__file__)) + '\\scriptingbase\\' + name
+        origin = 'D:\\adTemp\\scriptingbase\\' + name
         destination = self._project_path + '/' + name
         self._generate_script_from_source(origin, destination, variables)
 
 
     def _generate_script_from_base_top(self, name: str) -> None:
-        origin = os.path.dirname(os.path.abspath(__file__)) + '\\scriptingbase\\' + name
+        origin = 'D:\\adTemp\\scriptingbase\\' + name
         destination = self._project_path + '/' + name
         self._generate_script_from_source_top(origin, destination)
     def _generate_script_from_source_top(self, origin: str, destination: str) -> None:
