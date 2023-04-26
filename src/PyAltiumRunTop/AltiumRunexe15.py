@@ -14,7 +14,7 @@ class AltiumRun:
 
     def __init__(self, altium_version: Optional[str] = None, use_internal_logger: bool = True):
         self.set_used_altium_version()
-        self._project_path = os.path.dirname(sys.argv[0]) + "/scripting_project"
+        self._project_path = os.path.dirname(sys.argv[0]) + "/scripting_project_adprod_exe"
 
         pathlib.Path(self._project_path).mkdir(parents=True, exist_ok=True)
         self.external_scripts_path: List[str] = []
@@ -43,10 +43,11 @@ class AltiumRun:
         :param version: The full version of the Altium designer you want to use.
         :return: If the version set was succesfull or not.
         """
-        altium_install = AltiumHelper.get_install_path(version)
+        altium_install = AltiumHelper.get_system_env_variable("AD15")
         if altium_install is None:
+            print("can not read system ad path var")
             return False
-        self._altium_path = altium_install + r"\X2.exe"
+        self._altium_path = r"D:\Program Files (x86)\Altium\AD15" + r"\DXP.EXE"
         return True
 
     def set_scripting_project_path(self, path: str) -> None:

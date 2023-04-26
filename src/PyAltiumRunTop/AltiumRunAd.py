@@ -14,7 +14,7 @@ class AltiumRun:
 
     def __init__(self, altium_version: Optional[str] = None, use_internal_logger: bool = True):
         self.set_used_altium_version()
-        self._project_path = os.path.dirname(sys.argv[0]) + "/scripting_project"
+        self._project_path = os.path.dirname(sys.argv[0]) + "/scripting_project_adprod"
 
         pathlib.Path(self._project_path).mkdir(parents=True, exist_ok=True)
         self.external_scripts_path: List[str] = []

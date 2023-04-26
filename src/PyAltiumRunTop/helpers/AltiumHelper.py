@@ -49,3 +49,15 @@ def get_build_var(var_name: str, version: Optional[str] = None) -> Any:
             i += 1
         except WindowsError:
             return None
+
+
+def get_system_env_variable(variable_name: str) -> Any:
+    with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,
+                        r'SYSTEM\CurrentControlSet\Control\Session Manager\Environment',
+                        0, winreg.KEY_READ) as key:
+
+        try:
+            variable_value, _ = winreg.QueryValueEx(key, variable_name)
+            return variable_value
+        except FileNotFoundError:
+            return None
