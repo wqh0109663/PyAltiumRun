@@ -47,7 +47,7 @@ class AltiumRun:
         if altium_install is None:
             print("can not read system ad path var")
             return False
-        self._altium_path = r"D:\Program Files (x86)\Altium\AD15" + r"\DXP.EXE"
+        self._altium_path = altium_install + r"\DXP.EXE"
         return True
 
     def set_scripting_project_path(self, path: str) -> None:
